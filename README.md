@@ -11,31 +11,31 @@ Clone the github: `www.github.com/janneyt/email-microservice`
 
 Communication with this microservice relies on the following endpoints:
 
-    1. /
-        Receives: a GET request with no queries
+    - /
+        -Receives: a GET request with no queries
 
-        Example call:
+        -Example call:
             ###
             GET http://localhost:8090 
             Content-Type: application/json 
             Authorization: x-access-token
 
-        Returns the following status codes:
+        -Returns the following status codes:
 
             Status: 200
             Data: {
                 endpoints : {*all endpoints will be here*}
             }
 
-    2. /api/contact/send/email
-        Receives: a POST request with the following mandatory fields:
+    - /api/contact/send/email
+        -Receives: a POST request with the following mandatory fields:
             {
                 "sender":"tedjanneyishuman@gmail.com",
                 "recipient":"janneyt@oregonstate.edu",
                 "message":"Hi Ted, Hope all is well."
             }
         
-        Example call:
+        -Example call:
             ###
             POST http://localhost:8090/api/contact/email/send_email HTTP/1.1
             Content-Type: application/json
