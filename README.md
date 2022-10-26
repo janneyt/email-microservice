@@ -4,7 +4,8 @@
 This is a gateway between a REST API and Twilio's SendGrid API. It is meant as a microservice, with some consumer sending data for an email and then receiving a reply back.
 
 # Install
-Clone the github: `www.github.com/janneyt/email-microservice`
+Clone the github: 
+`git clone -u www.github.com/janneyt/email-microservice`
 
 ##############################
 # Communication Contract
