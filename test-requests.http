@@ -1,0 +1,15 @@
+###
+POST http://localhost:8090/api/contact/email/send_email HTTP/1.1
+Content-Type: application/json
+Authorization: x-access-token
+
+{
+    "sender":"tedjanneyishuman@gmail.com",
+    "recipient":"janneyt@oregonstate.edu",
+    "message":"Hi Ted, Hope all is well."
+}
+
+###
+GET http://localhost:8090 
+Content-Type: application/json 
+Authorization: x-access-token
