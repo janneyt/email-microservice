@@ -123,6 +123,7 @@ func send_email(w http.ResponseWriter, r *http.Request) {
                 w.WriteHeader(http.StatusUnauthorized)
                 fmt.Fprintf(w,"%v","The microservice is not currently authorized to communicate with our email partner, Twilio. Please check to make sure the API Key is valid and all authorization is setup per: https://github.com/sendgrid/sendgrid-go")
             }
+            w.WriteHeader(response.StatusCode)
             fmt.Fprintf(w,"%+v",response)
         }
     } else {

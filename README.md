@@ -12,14 +12,19 @@ Clone this github:
 Change directories to the cloned repository:
 `cd email-microservice`
 
-In the email-microservice repository, run this command:
-`go run email-microservice.go run`
+Initialize the mod system
+`go mod init email-microservice.com/m/v2`
 
-Alternatively, you can build the executable:
+Tidy the mod (install dependencies, among many other useful features)
+`go mod tidy`
+
+Now you can build the executable:
 `go build email-microservice.go`
 
 And then run the microservice like so:
 `./email-microservice run`
+or on Windows:
+`email-microservice run`
 
 # Usage
 
