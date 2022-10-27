@@ -90,8 +90,10 @@ func show_endpoints(w http.ResponseWriter, r *http.Request) {
         if err != nil {
             /* Mangled data returns a 404*/
             w.WriteHeader(http.StatusNotFound)
+        } else {
+            w.WriteHeader(http.StatusOK)
+            fmt.Fprintf(w, "%+v", returnable)
         }
-        fmt.Println(string(returnable))
     } else {
         w.WriteHeader(http.StatusBadRequest)
     }  
@@ -104,7 +106,7 @@ func send_email(w http.ResponseWriter, r *http.Request) {
         var incoming incoming_email 
         err := json.Unmarshal(reqBody, &incoming)
         if err != nil{
-            panic(err)
+            w.WriteHeader(http.StatusNotFound)
         }
         from := mail.NewEmail(incoming.SenderName, incoming.Sender)
         to := mail.NewEmail(incoming.RecipientName, incoming.Recipient)
@@ -112,7 +114,6 @@ func send_email(w http.ResponseWriter, r *http.Request) {
         plainTextContent := incoming.Message
         htmlContent := incoming.Message
         message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-        fmt.Println(os.Getenv("SENDGRID_API_KEY"))
         client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
         response, err := client.Send(message)
         if err != nil {
@@ -139,7 +140,7 @@ func route_handler() {
 func main() {
 
     args := os.Args
-    if(len(args) == 2 && (strings.ToLower(args[1]) == "run" || strings.ToLower(args[1]) == "help")){
+    if(len(args) == 2 && (strings.ToLower(args[1]) == "run" )){
 
         fmt.Println("Beginning email microservice by Ted Janney");
 
@@ -159,6 +160,9 @@ func main() {
         }
             
         
+    }   else if len(args) == 2 && strings.ToLower(args[1]) == "help" {
+        fmt.Println("Please consult the Readme while I create a help menu.")
+
     } else {
         panic("The acceptable commands are 'run' or 'help'")
     }
