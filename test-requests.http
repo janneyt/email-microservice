@@ -6,7 +6,10 @@ Authorization: x-access-token
 {
     "sender":"tedjanneyishuman@gmail.com",
     "recipient":"janneyt@oregonstate.edu",
-    "message":"Hi Ted, Hope all is well."
+    "message":"Hi Ted, Hope all is well.",
+    "sendername":"Ted",
+    "subject":"Yo",
+    "recipientname":"Ted Janney"
 }
 
 ###

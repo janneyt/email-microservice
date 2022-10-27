@@ -10,10 +10,10 @@ import (
     "encoding/json"
     "io/ioutil"
     "strings"
+    "github.com/joho/godotenv"
 
-
-    /*"github.com/sendgrid/sendgrid-go"
-    "github.com/sendgrid/sendgrid-go/helpers/mail"*/
+    "github.com/sendgrid/sendgrid-go"
+    "github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 type required_post_properties struct {
@@ -96,8 +96,9 @@ func show_endpoints(w http.ResponseWriter, r *http.Request) {
         w.WriteHeader(http.StatusBadRequest)
     }  
 }
- /*
+ 
 func send_email(w http.ResponseWriter, r *http.Request) {
+    err := godotenv.Load("sendgrid.env")
     reqBody, err := ioutil.ReadAll(r.Body)
     if err == nil {
         var incoming incoming_email 
@@ -111,22 +112,27 @@ func send_email(w http.ResponseWriter, r *http.Request) {
         plainTextContent := incoming.Message
         htmlContent := incoming.Message
         message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+        fmt.Println(os.Getenv("SENDGRID_API_KEY"))
         client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
         response, err := client.Send(message)
         if err != nil {
-            w.WriteHeader(http.StatusNotFound  )
+            w.WriteHeader(http.StatusNotFound)
         } else {
+            if response.StatusCode == 401 {
+                w.WriteHeader(http.StatusUnauthorized)
+                fmt.Fprintf(w,"%v","The microservice is not currently authorized to communicate with our email partner, Twilio. Please check to make sure the API Key is valid and all authorization is setup per: https://github.com/sendgrid/sendgrid-go")
+            }
             fmt.Fprintf(w,"%+v",response)
         }
     } else {
         w.WriteHeader(http.StatusBadRequest)
     }
-}*/
+}
 
 func route_handler() {
     router := mux.NewRouter()
     router.HandleFunc("/",show_endpoints).Methods("GET")
-    /*router.HandleFunc("/api/contact/email/send_email", send_email).Methods("POST")*/
+    router.HandleFunc("/api/contact/email/send_email", send_email).Methods("POST")
     log.Fatal(http.ListenAndServe(":8090", router))
 }
 
