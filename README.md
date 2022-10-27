@@ -32,7 +32,7 @@ You must use one of two arguments to run the service. These are the only valid c
 
 Communication with this microservice relies on the following endpoints:
 
-    - /
+    - Endpoint: /
         -Receives: a GET request with no queries
 
         -Example call:
@@ -44,16 +44,43 @@ Communication with this microservice relies on the following endpoints:
         -Returns the following status codes:
 
             Status: 200
-            Data: {
-                endpoints : {*all endpoints will be here*}
-            }
+            Data: 
+                [{
+                    "Name":"All",
+                    "Method":"GET",
+                    "Description":"Returns all endpoints currently enabled",
+                    "Example":"/api/contact/email/all",
+                    "Required":
+                        {"Sender":"Not required",
+                        "SenderName":"Not required",
+                        "Recipient":"Not required",
+                        "RecipientName":"Not required",
+                        "Subject":"Not required"}},
+                {
+                    "Name":"send_email",
+                    "Method":"POST",
+                    "Description":"Sends a email based on the passed properties.","Example":"/api/contact/email/send_email",
+                    "Required":
+                        {"Sender":"Not required",
+                        "SenderName":"Not required",
+                        "Recipient":"Not required",
+                        "RecipientName":"Not required",
+                        "Subject":"Not required"}}]
 
-    - /api/contact/send/email
+            Status: 400-Bad Request
+            Data: None, this indicates a malformed request on the calling agent's side
+
+            Status: 404-Not Found
+            Data: None, this indicates a processing error but a graceful exit and reply to the end user.
+
+    - Endpoint: /api/contact/send/email
         -Receives: a POST request with the following mandatory fields:
             {
                 "sender":"tedjanneyishuman@gmail.com",
                 "recipient":"janneyt@oregonstate.edu",
                 "message":"Hi Ted, Hope all is well."
+                "sendername":"Ted"
+                "recipientname":"Ted"
             }
         
         -Example call:

@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"name": "email-microservice-1",
+			"path": "."
+		}
+	],
+	"settings": {}
+}

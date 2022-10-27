@@ -12,44 +12,91 @@ import (
     "strings"
 
 
-    "github.com/sendgrid/sendgrid-go"
-    "github.com/sendgrid/sendgrid-go/helpers/mail"
+    /*"github.com/sendgrid/sendgrid-go"
+    "github.com/sendgrid/sendgrid-go/helpers/mail"*/
 )
 
+type required_post_properties struct {
+    Sender string                               `json:"Sender"`
+    SenderName string                           `json:"SenderName"`
+    Recipient  string                           `json:"Recipient"`
+    RecipientName string                        `json:"RecipientName"`
+    Subject      string                         `json:"Subject"`
+}
+
 type endpoint_information struct {
-    name string 
-    method string 
-    description string 
-    example string 
+    Name string                                 `'json:"Name"`
+    Method string                               `json:"Method"`
+    Description string                          `json:"Description"`
+    Example string                              `json:"Example"`
+    Required required_post_properties           `json:"Required"`
+}
+
+type return_endpoints struct {
+    Endpoints []endpoint_information            `json:"Endpoints"`
 }
 
 type incoming_email struct {
-    Sender string `json:"sender"`
-    Recipient string `json:"recipient"`
-    Message string `json:"message"`
-    Subject string `json:"subject"`
-    SenderName string `json:"sendername"`
-    RecipientName string `json:"recipientname"`
+    Sender string                               `json:"sender"`
+    Recipient string                            `json:"recipient"`
+    Message string                              `json:"message"`
+    Subject string                              `json:"subject"`
+    SenderName string                           `json:"sendername"`
+    RecipientName string                        `json:"recipientname"`
 }
 
 func show_endpoints(w http.ResponseWriter, r *http.Request) {
-    vars := mux.Vars(r)
-    w.WriteHeader(http.StatusOK)
-    fmt.Fprintf(w, "Category: %v\n", vars["category"])
-    all := &endpoint_information{
-        name: "All",
-        method: "GET",
-        description: "Returns all endpoints currently enabled",
-        example: "/api/contact/email/all",
-    }
+    _ , err := ioutil.ReadAll(r.Body)
+    if err == nil {
+        
+        /* Register all routes here */
 
-    print_all, _ := json.Marshal(all)
-    fmt.Println(print_all)
+        required_properties := required_post_properties{
+            Sender:"Not required",
+            SenderName:"Not required",
+            Recipient:"Not required",
+            RecipientName:"Not required",
+            Subject:"Not required",
+        }
+        all := endpoint_information{
+            Name: "All",
+            Method: "GET",
+            Description: "Returns all endpoints currently enabled",
+            Example: "/api/contact/email/all",
+            Required: required_properties,
+        }
 
-    fmt.Fprintf(w, "All routes: %s",print_all)
-    
+        returnables := []endpoint_information{
+            all,
+        }
+
+        /* Setup send_email with its required post properties data member */
+        required_properties1 := required_post_properties{
+            Sender:"Not required",
+            SenderName:"Not required",
+            Recipient:"Not required",
+            RecipientName:"Not required",
+            Subject:"Not required",
+        }
+        send_email := endpoint_information{
+            Name:"send_email",
+            Method:"POST",
+            Description: "Sends a email based on the passed properties.",
+            Example: "/api/contact/email/send_email",
+            Required:  required_properties1,
+        }
+        returnables = append(returnables, send_email)
+        returnable, err := json.Marshal(returnables)
+        if err != nil {
+            /* Mangled data returns a 404*/
+            w.WriteHeader(http.StatusNotFound)
+        }
+        fmt.Println(string(returnable))
+    } else {
+        w.WriteHeader(http.StatusBadRequest)
+    }  
 }
-
+ /*
 func send_email(w http.ResponseWriter, r *http.Request) {
     reqBody, err := ioutil.ReadAll(r.Body)
     if err == nil {
@@ -74,12 +121,12 @@ func send_email(w http.ResponseWriter, r *http.Request) {
     } else {
         w.WriteHeader(http.StatusBadRequest)
     }
-}
+}*/
 
 func route_handler() {
     router := mux.NewRouter()
     router.HandleFunc("/",show_endpoints).Methods("GET")
-    router.HandleFunc("/api/contact/email/send_email", send_email).Methods("POST")
+    /*router.HandleFunc("/api/contact/email/send_email", send_email).Methods("POST")*/
     log.Fatal(http.ListenAndServe(":8090", router))
 }
 
