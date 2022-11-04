@@ -1,6 +1,6 @@
-module email-microservice.com/m2/v2
+module email-microservice.com/m/v2
 
-go 1.18
+go 1.19
 
 require (
 	github.com/gorilla/mux v1.8.0
