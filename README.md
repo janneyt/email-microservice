@@ -96,9 +96,12 @@ Communication with this microservice relies on the following endpoints:
 
             {
                 "sender":"tedjanneyishuman@gmail.com",
-                "recipient":"janneyt@oregonstate.edu",
-                "message":"Hi Ted, Hope all is well."
+                "recipient":"lbjanney7@gmail.com",
+                "message":"Hi Ted, Hope all is well.",
+                "sendername":"Ted",
+                "subject":"Yo",
+                "recipientname":"Laura Janney"
             }
-            
+
             ![Email Contact Form Microservice vpd](https://user-images.githubusercontent.com/70920801/199119972-65b86ab7-8d11-448e-aeec-e3ca9d03e2cb.jpg)
 file:///home/castimir/Downloads/Email%20Contact%20Form%20Microservice.vpd.jpg![image](https://user-images.githubusercontent.com/70920801/199120089-a10fae54-fcd7-4afc-a488-ea8386b0e3ff.png)
